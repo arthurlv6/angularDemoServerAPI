@@ -1,0 +1,74 @@
+﻿[
+  {
+    "id": 97,
+    "name": "General",
+    "parentId": null,
+    "showOrder": 2,
+    "deleted": false,
+    "createdDate": "2014-10-08T12:19:25.003",
+    "modifiedDate": null,
+    "products": [],
+    "productCategory1": [],
+    "productCategory2": null
+  },
+    {
+        "id": 98,
+        "name": "Home Theatre",
+        "parentId": null,
+        "showOrder": 0,
+        "deleted": false,
+        "createdDate": null,
+        "modifiedDate": null,
+        "products": [],
+        "productCategory1": [],
+        "productCategory2": null
+    },
+    {
+        "id": 100,
+        "name": "Laptop",
+        "parentId": null,
+        "showOrder": 0,
+        "deleted": false,
+        "createdDate": null,
+        "modifiedDate": null,
+        "products": [],
+        "productCategory1": [],
+        "productCategory2": null
+    },
+    {
+        "id": 103,
+        "name": "Mobile Phone",
+        "parentId": null,
+        "showOrder": 0,
+        "deleted": false,
+        "createdDate": null,
+        "modifiedDate": null,
+        "products": [],
+        "productCategory1": [],
+        "productCategory2": null
+    },
+    {
+        "id": 112,
+        "name": "Electronic",
+        "parentId": null,
+        "showOrder": 6,
+        "deleted": false,
+        "createdDate": null,
+        "modifiedDate": null,
+        "products": [],
+        "productCategory1": [],
+        "productCategory2": null
+    },
+    {
+        "id": 114,
+        "name": "Furnature",
+        "parentId": null,
+        "showOrder": 5,
+        "deleted": false,
+        "createdDate": null,
+        "modifiedDate": null,
+        "products": [],
+        "productCategory1": [],
+        "productCategory2": null
+    }
+]

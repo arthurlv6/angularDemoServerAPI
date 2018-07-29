@@ -1,0 +1,29 @@
+﻿[
+  {
+    "id": 1,
+    "productId": 0,
+    "profile": "http://www.allwhitebackground.com/images/1/Computer-4.jpg",
+    "description": "Blue color set",
+    "createdDate": "2014-10-08T12:19:25.003",
+    "modifiedDate": "2014-10-08T12:19:25.003",
+    "product": null
+  },
+  {
+    "id": 2,
+    "productId": 0,
+    "profile": "https://thumbs.dreamstime.com/z/computer-monitor-keyboard-mouse-modern-technology-screen-has-layer-clipping-mask-vector-file-making-easy-39411571.jpg",
+    "description": "white color set",
+    "createdDate": "2014-10-08T12:19:25.003",
+    "modifiedDate": "2014-10-08T12:19:25.003",
+    "product": null
+  },
+  {
+    "id": 3,
+    "productId": 0,
+    "profile": "https://comps.canstockphoto.com/desktop-personal-computer-set-eps-vector_csp39272148.jpg",
+    "description": "Black color set",
+    "createdDate": "2014-10-08T12:19:25.003",
+    "modifiedDate": "2014-10-08T12:19:25.003",
+    "product": null
+  }
+]

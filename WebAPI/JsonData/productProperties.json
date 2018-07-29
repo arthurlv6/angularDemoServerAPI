@@ -1,0 +1,66 @@
+﻿[
+  {
+    "id": 1,
+    "productId": 0,
+    "description": "Model Z3-715 ",
+    "createdDate": "2014-10-08T12:19:25.003",
+    "modifiedDate": "2014-10-08T12:19:25.003",
+    "product": null
+  },
+    {
+        "id": 2,
+        "productId": 0,
+        "description": "Processor Brand Intel Type Core i5 Model i5-7400T ",
+        "createdDate": "2014-10-08T12:19:25.003",
+        "modifiedDate": "2014-10-08T12:19:25.003",
+        "product": null
+    },
+    {
+        "id": 3,
+        "productId": 0,
+        "description": "Processor Speed (GHz) 3.0 ",
+        "createdDate": "2014-10-08T12:19:25.003",
+        "modifiedDate": "2014-10-08T12:19:25.003",
+        "product": null
+    },
+    {
+        "id": 4,
+        "productId": 0,
+        "description": "Installed RAM 16GB ",
+        "createdDate": "2014-10-08T12:19:25.003",
+        "modifiedDate": "2014-10-08T12:19:25.003",
+        "product": null
+    },
+    {
+        "id": 5,
+        "productId": 0,
+        "description": "RAM Expandable To (GB) 16 ",
+        "createdDate": null,
+        "modifiedDate": null,
+        "product": null
+    },
+    {
+        "id": 0,
+        "productId": 0,
+        "description": "Screen Size (inches) 23.8 ",
+        "createdDate": null,
+        "modifiedDate": null,
+        "product": null
+    },
+    {
+        "id": 7,
+        "productId": 0,
+        "description": "Optical Drive Format DVD+R, DVD+RW, DVD-R, DVD-RW ",
+        "createdDate": null,
+        "modifiedDate": null,
+        "product": null
+    },
+    {
+        "id": 8,
+        "productId": 0,
+        "description": "Connectivity 1x USB 2.0, 4x USB 3.0, Bluetooth, HDMI ",
+        "createdDate": null,
+        "modifiedDate": null,
+        "product": null
+    }
+]
