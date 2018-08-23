@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("token")]
-        public async Task<IActionResult> CreateToken([FromBody] CredentialVM model)
+        public async Task<IActionResult> CreateToken([FromBody] CredentialModel model)
         {
             try
             {
@@ -58,13 +58,13 @@ namespace WebAPI.Controllers
                     if (result.Succeeded)
                     {
                         var userClaims = await _userMgr.GetClaimsAsync(user);
-
+                        var userRoles =await _userMgr.GetRolesAsync(user);
                         var claims = new[]
                         {
                           new Claim(JwtRegisteredClaimNames.Sub, model.UserName),
                           new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                           new Claim(JwtRegisteredClaimNames.Email, user.Email)
-                        };
+                        }.Union(userClaims);
 
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("FooBarQuuxIsTheStandardTypeOfStringWeUse12345"));
                         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -73,14 +73,15 @@ namespace WebAPI.Controllers
                           issuer: _config["Tokens:Issuer"],
                           audience: _config["Tokens:Audience"],
                           claims: claims,
-                          expires: DateTime.Now.AddHours(8),
+                          expires: DateTime.UtcNow.AddHours(20),
                           signingCredentials: creds
                           );
 
                         return Ok(new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
+                            expiration = token.ValidTo,
+                            roles = userRoles,
                         });
                     }
                 }

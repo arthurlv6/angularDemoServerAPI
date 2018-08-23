@@ -148,7 +148,7 @@ namespace WebAPI.Controllers
         {
             var entity = _mapper.Map<Supplier>(model);
             entity.CreatedDate = DateTime.UtcNow;
-            entity.ModifiedDate = DateTime.UtcNow;
+            entity.ModifiedDate = null;
             _context.Suppliers.Add(entity);
             await _context.SaveChangesAsync();
 

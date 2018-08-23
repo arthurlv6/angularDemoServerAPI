@@ -41,5 +41,7 @@ namespace WebAPI.Entities
         public virtual DbSet<WarehouseProduct> WarehouseProduct { get; set; }
         public virtual DbSet<WarehouseTransfer> WarehouseTransfers { get; set; }
         public virtual DbSet<WarehouseTransferDetail> WarehouseTransferDetails { get; set; }
+
+        public virtual DbSet<Company> Company { get; set; }
     }
 }

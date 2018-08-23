@@ -39,5 +39,6 @@ namespace WebAPI.Models
         public string ContactDDINumber { get; set; }
         public string ContactTollFreeNumber { get; set; }
         public string Profile { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

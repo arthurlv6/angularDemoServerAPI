@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
-    public class CredentialVM
+    public class CredentialModel
     {
         [Required]
         public string UserName { get; set; }

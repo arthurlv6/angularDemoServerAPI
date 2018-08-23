@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
 using WebAPI.Entities;
 using AutoMapper;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -28,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IEnumerable<ProductCategoryModel> GetProductCategories()
         {
-            return _mapper.Map<IEnumerable<ProductCategoryModel>>(_context.ProductCategories.Include(d=>d.Products));
+            return _mapper.Map<IEnumerable<ProductCategoryModel>>(_context.ProductCategories);
         }
 
         // GET: api/ProductCategories/5
@@ -52,19 +53,15 @@ namespace WebAPI.Controllers
 
         // PUT: api/ProductCategories/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductCategory([FromRoute] int id, [FromBody] ProductCategory productCategory)
+        public async Task<IActionResult> PutProductCategory([FromRoute] int id, [FromBody] IdAndValue input)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != productCategory.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(productCategory).State = EntityState.Modified;
+            var entity = _context.ProductCategories.FirstOrDefault(d => d.Id == id);
+            entity.ModifiedDate = DateTime.UtcNow;
+            entity.Name = input.Value;
 
             try
             {

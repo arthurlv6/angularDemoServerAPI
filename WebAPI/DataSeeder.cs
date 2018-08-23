@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.Entities;
 
@@ -15,14 +16,17 @@ namespace WebAPI.Models
         private readonly ApplicationDbContext _ctx;
         private readonly IHostingEnvironment _hosting;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public DataSeeder(ApplicationDbContext ctx,
           IHostingEnvironment hosting,
-          UserManager<ApplicationUser> userManager)
+          UserManager<ApplicationUser> userManager,
+          RoleManager<IdentityRole> roleManager)
         {
             _ctx = ctx;
             _hosting = hosting;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         private IEnumerable<T> GetJsonItems<T>(string jsaonPath)
         {
@@ -34,6 +38,57 @@ namespace WebAPI.Models
         {
             _ctx.Database.EnsureCreated();
 
+            #region system users and roles
+            var roleCheck =await _roleManager.RoleExistsAsync("Settings");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Settings"));
+                
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("23");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Products"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Inventories");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Inventories"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Suppliers");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Suppliers"));
+            }
+
+            roleCheck = await _roleManager.RoleExistsAsync("Purchases");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Purchases"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Customers");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Customers"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Sales");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Sales"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Reports");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Reports"));
+            }
+            roleCheck = await _roleManager.RoleExistsAsync("Website");
+            if (!roleCheck)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole("Website"));
+            }
+
+
+
             var user = await _userManager.FindByEmailAsync("arthur.lv6@gmail.com");
 
             if (user == null)
@@ -41,7 +96,10 @@ namespace WebAPI.Models
                 user = new ApplicationUser()
                 {
                     UserName = "arthur.lv6@gmail.com",
-                    Email = "arthur.lv6@gmail.com"
+                    Email = "arthur.lv6@gmail.com",
+                    Name = "Arthur",
+                    JobTitle = "COO",
+                    PhoneNumber = "0210578463"
                 };
 
                 var result = await _userManager.CreateAsync(user, "Tomhack!123");
@@ -49,8 +107,60 @@ namespace WebAPI.Models
                 {
                     throw new InvalidOperationException("Failed to create default user");
                 }
+
+                await _userManager.AddToRoleAsync(user, "Settings");
+                await _userManager.AddToRoleAsync(user, "Products");
+                await _userManager.AddToRoleAsync(user, "Inventories");
+                await _userManager.AddToRoleAsync(user, "Suppliers");
+                await _userManager.AddToRoleAsync(user, "Purchases");
+                await _userManager.AddToRoleAsync(user, "Customers");
+                await _userManager.AddToRoleAsync(user, "Sales");
+                await _userManager.AddToRoleAsync(user, "Reports");
+                await _userManager.AddToRoleAsync(user, "Website");
+
+                await _userManager.AddClaimAsync(user, new Claim("Settings","true"));
+                await _userManager.AddClaimAsync(user, new Claim("Products", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Inventories", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Suppliers", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Purchases", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Customers", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Sales", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Reports", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Website", "true"));
             }
-            
+            user = await _userManager.FindByEmailAsync("selina@gmail.com");
+            if (user == null)
+            {
+                user = new ApplicationUser()
+                {
+                    UserName = "selina@gmail.com",
+                    Email = "selina@gmail.com",
+                    Name="Selina",
+                    JobTitle="CEO",
+                    PhoneNumber="021099332"
+                };
+
+                var result = await _userManager.CreateAsync(user, "Tomhack!123");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Failed to create default user");
+                }
+                await _userManager.AddToRoleAsync(user, "Products");
+                await _userManager.AddToRoleAsync(user, "Inventories");
+                await _userManager.AddToRoleAsync(user, "Suppliers");
+                await _userManager.AddToRoleAsync(user, "Purchases");
+                await _userManager.AddToRoleAsync(user, "Customers");
+                await _userManager.AddToRoleAsync(user, "Sales");
+
+                await _userManager.AddClaimAsync(user, new Claim("Products", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Inventories", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Suppliers", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Purchases", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Customers", "true"));
+                await _userManager.AddClaimAsync(user, new Claim("Sales", "true"));
+            }
+#endregion
+
             if (!_ctx.Suppliers.Any())
             {
                 var items = GetJsonItems<Supplier>("jsonData/suppliers.json");
@@ -112,6 +222,17 @@ namespace WebAPI.Models
                 _ctx.ProductProperties.AddRange(items);
                 _ctx.SaveChanges();
             }
+            if (!_ctx.Customers.Any())
+            {
+                var items = GetJsonItems<Customer>("jsonData/customers.json");
+                items.ToList().ForEach(s =>
+                {
+                    s.Id = 0;
+                });
+                _ctx.Customers.AddRange(items);
+                _ctx.SaveChanges();
+            }
+
             if (!_ctx.Warehouses.Any())
             {
                 _ctx.Warehouses.Add(new Warehouse() { Id=0, Name="Main" });
@@ -119,6 +240,36 @@ namespace WebAPI.Models
                 _ctx.Warehouses.Add(new Warehouse() { Id = 0, Name = "West" });
                 _ctx.Warehouses.Add(new Warehouse() { Id = 0, Name = "South" });
                 _ctx.Warehouses.Add(new Warehouse() { Id = 0, Name = "North" });
+                _ctx.SaveChanges();
+            }
+            if (!_ctx.Company.Any())
+            {
+                _ctx.Company.Add(new Company()
+                {
+                    Id = 0,
+                    Name = "Company Name",
+                    TradingName="Trading name",
+                    Industry="Whole Sales",
+                    OrganisationType="Company",
+                    GST="",
+                    Website="",
+                    Timezone="",
+                    Logo="",
+                    Address="",
+                    Suburb="",
+                    City="",
+                    State="",
+                    Country="",
+                    PostCode="",
+                    FirstName="",
+                    LastName="",
+                    OfficePhone="",
+                    MobileNumber="",
+                    Email="",
+                    Note="",
+                    ValidDate=DateTime.Now,
+                    Initialized=false
+                });
                 _ctx.SaveChanges();
             }
         }

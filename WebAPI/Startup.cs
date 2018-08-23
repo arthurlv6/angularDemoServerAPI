@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using WebAPI.Entities;
 using WebAPI.Filters;
 using WebAPI.Models;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -30,10 +31,10 @@ namespace WebAPI
         {
             Configuration = configuration;
             var builder = new ConfigurationBuilder()
-        .SetBasePath(env.ContentRootPath)
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-        .AddEnvironmentVariables();
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            .AddEnvironmentVariables();
             _env = env;
             _config = builder.Build();
         }
@@ -85,13 +86,27 @@ namespace WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("FooBarQuuxIsTheStandardTypeOfStringWeUse12345"))
                 };
             });
-            services.AddCors();
+            //services.AddCors();
+            services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy("SystemPolicy", p => {
+                    p.RequireClaim("Settings", "true");
+                    p.RequireClaim("Products", "true");
+                });
+                cfg.AddPolicy("Products", p => {
+                    p.RequireClaim("Products", "True");
+                });
+            });
 
             services.AddTransient<DataSeeder>();
 
             services.AddTransient<ClaimsPrincipal>(
                 s => s.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddAutoMapper();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWarehouseService, WarehouseService>();
+            
             // mvc
             services.AddMvc(opt =>
             {
