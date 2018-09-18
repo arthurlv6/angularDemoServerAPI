@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using WebAPI.Entities;
+using Models;
+using Repositories.Context.Entities;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -20,7 +19,6 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private ApplicationDbContext _context;
         private ILogger<AuthController> _logger;
         private SignInManager<ApplicationUser> _signInMgr;
         private UserManager<ApplicationUser> _userMgr;
@@ -28,7 +26,7 @@ namespace WebAPI.Controllers
         private IConfigurationRoot _config;
         private readonly ClaimsPrincipal _caller;
 
-        public AuthController(ApplicationDbContext context,
+        public AuthController(
           SignInManager<ApplicationUser> signInMgr,
           UserManager<ApplicationUser> userMgr,
           IPasswordHasher<ApplicationUser> hasher,
@@ -37,7 +35,6 @@ namespace WebAPI.Controllers
           ClaimsPrincipal caller
           )
         {
-            _context = context;
             _signInMgr = signInMgr;
             _logger = logger;
             _userMgr = userMgr;

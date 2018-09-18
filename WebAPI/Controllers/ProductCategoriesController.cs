@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
-using WebAPI.Entities;
 using AutoMapper;
 using WebAPI.Services;
 
@@ -16,6 +15,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductCategoriesController : ControllerBase
     {
+        /*
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         public ProductCategoriesController(ApplicationDbContext context, 
@@ -122,5 +122,6 @@ namespace WebAPI.Controllers
         {
             return _context.ProductCategories.Any(e => e.Id == id);
         }
+        */
     }
 }

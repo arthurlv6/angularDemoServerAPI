@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -13,18 +12,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CompaniesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-
-        public CompaniesController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
+        /*
         // GET: api/Companies
         [HttpGet]
         public Company GetCompany()
         {
-            
             return _context.Company.FirstOrDefault();
         }
 
@@ -122,5 +114,6 @@ namespace WebAPI.Controllers
         {
             return _context.Company.Any(e => e.Id == id);
         }
+        */
     }
 }

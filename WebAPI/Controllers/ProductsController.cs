@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
-using WebAPI.Entities;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using MediatR;
 
 namespace WebAPI.Controllers
 {
@@ -19,15 +19,16 @@ namespace WebAPI.Controllers
     //[Authorize]
     public class ProductsController : BaseController
     {
+        
         private ILogger<ProductsController> _logger;
         public ProductsController(
-            ApplicationDbContext context,
+            IMediator mediator,
             IMapper mapper,
-            ILogger<ProductsController> logger) : base(context, mapper)
+            ILogger<ProductsController> logger) : base( mapper, mediator)
         {
             _logger = logger;
         }
-
+        /*
         // GET: api/Products
         [HttpGet]
         public IActionResult GetProducts(string name = null, int pageNumber = 1, int pageSize = 15)
@@ -129,5 +130,6 @@ namespace WebAPI.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+        */
     }
 }

@@ -5,3 +5,21 @@
 /WebAPI/bin
 /WebAPI/obj
 /.vs
+/Common/bin
+/Common/obj
+/Models/bin
+/Models/obj
+/Pipeline/bin
+/Pipeline/obj
+/Repositories/bin
+/Repositories/obj
+/Repositories.Context/bin
+/Repositories.Context/obj
+/Repositories.Contract/bin
+/Repositories.Contract/obj
+/Repositories.Entities/bin/Debug/netstandard2.0
+/Repositories.Entities/obj
+/UseCases/bin
+/UseCases/obj
+/UseCases.Contract/obj
+/WebAPI/Properties/PublishProfiles/api.angular.arthurdid.net - Web Deploy.pubxml.user

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Repositories.Context.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Entities;
 using WebAPI.Models;
 
 namespace WebAPI.Services
@@ -25,6 +25,8 @@ namespace WebAPI.Services
             var list = new List<IUserOperation>();
             list.Add(new UpdateName(_userMgr));
             list.Add(new UpdateTitle(_userMgr));
+            list.Add(new UpdatePhone(_userMgr));
+            list.Add(new UpdateRole(_userMgr));
             return list;
         }
     }
@@ -38,7 +40,7 @@ namespace WebAPI.Services
         }
         public bool IsMatch(string user)
         {
-            return user == "Name";
+            return user == "name";
         }
 
         public async Task UpdateUser(UserIdAndValue user)
@@ -68,7 +70,7 @@ namespace WebAPI.Services
         }
         public bool IsMatch(string user)
         {
-            return user == "Title";
+            return user == "title";
         }
         public async Task UpdateUser(UserIdAndValue user)
         {
@@ -76,6 +78,73 @@ namespace WebAPI.Services
             {
                 var existingUser = await _userMgr.FindByIdAsync(user.Id);
                 existingUser.JobTitle = user.Value;
+                await _userMgr.UpdateAsync(existingUser);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+        }
+    }
+
+    public class UpdatePhone : IUserOperation
+    {
+        private readonly UserManager<ApplicationUser> _userMgr;
+
+        public UpdatePhone(UserManager<ApplicationUser> userMgr)
+        {
+            _userMgr = userMgr;
+        }
+        public bool IsMatch(string user)
+        {
+            return user == "phone";
+        }
+        public async Task UpdateUser(UserIdAndValue user)
+        {
+            try
+            {
+                var existingUser = await _userMgr.FindByIdAsync(user.Id);
+                existingUser.PhoneNumber = user.Value;
+                await _userMgr.UpdateAsync(existingUser);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                throw;
+            }
+        }
+    }
+    public class UpdateRole : IUserOperation
+    {
+        private readonly UserManager<ApplicationUser> _userMgr;
+
+        public UpdateRole(UserManager<ApplicationUser> userMgr)
+        {
+            _userMgr = userMgr;
+        }
+        public bool IsMatch(string type)
+        {
+            return type != "phone" && type != "name" && type!="title";
+        }
+        public async Task UpdateUser(UserIdAndValue user)
+        {
+            try
+            {
+                var existingUser = await _userMgr.FindByIdAsync(user.Id);
+                var userRoles = await _userMgr.GetRolesAsync(existingUser);
+                if (user.Value == "on")
+                {
+                    var existingRole= userRoles.FirstOrDefault(d => d == user.Type);
+                    if (existingRole == null)
+                        userRoles.Insert(0, user.Type);
+                }
+                else
+                {
+                    var existingRole = userRoles.FirstOrDefault(d => d == user.Type);
+                    if (existingRole != null)
+                        userRoles.Remove(user.Type);
+                }
                 await _userMgr.UpdateAsync(existingUser);
             }
             catch (Exception ex)

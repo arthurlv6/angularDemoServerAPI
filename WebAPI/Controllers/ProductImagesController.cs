@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Models;
-using WebAPI.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -14,6 +13,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductImagesController : ControllerBase
     {
+        /*
         private readonly ApplicationDbContext _context;
 
         public ProductImagesController(ApplicationDbContext context)
@@ -122,5 +122,6 @@ namespace WebAPI.Controllers
         {
             return _context.ProductImages.Any(e => e.Id == id);
         }
+        */
     }
 }

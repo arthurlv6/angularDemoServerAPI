@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebAPI.Entities;
 using WebAPI.Models;
 using WebAPI.Services;
 
@@ -23,17 +23,18 @@ namespace WebAPI.Controllers
     {
         private ILogger<UsersController> _logger;
         private readonly IUserService _userService;
-
+        
         public UsersController(
-            ApplicationDbContext context,
             IMapper mapper,
             ILogger<UsersController> logger,
             IUserService userService,
-            IServiceProvider serviceProvider) : base(context, mapper)
+            IMediator mediator,
+            IServiceProvider serviceProvider) : base( mapper, mediator)
         {
             _logger = logger;
             _userService = userService;
         }
+        /*
         // GET: api/Users
         [HttpGet]
         
@@ -98,6 +99,7 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+        */
     }
-   
+
 }

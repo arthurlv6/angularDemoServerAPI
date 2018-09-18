@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Entities;
 using WebAPI.Services;
 
 namespace WebAPI.Controllers
@@ -14,6 +13,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class WarehousesController : ControllerBase
     {
+        /*
         private readonly ApplicationDbContext _context;
         private readonly IWarehouseService _warehouseService;
 
@@ -58,27 +58,15 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != value.Id)
-            {
-                return BadRequest();
-            }
-
             try
             {
                 var list = _warehouseService.Operations();
                 var operation = list.FirstOrDefault(d => d.IsMatch(value.Type));
                 await operation.UpdateUser(value, _context);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!WarehouseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -124,5 +112,6 @@ namespace WebAPI.Controllers
         {
             return _context.Warehouses.Any(e => e.Id == id);
         }
+        */
     }
 }

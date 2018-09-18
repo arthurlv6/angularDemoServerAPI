@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using WebAPI.Entities;
+using Repositories.Context.Entities;
+using UseCases;
 using WebAPI.Filters;
 using WebAPI.Models;
 using WebAPI.Services;
+using MediatR;
+using Models;
+using UseCases.Requests;
+using Repositories;
+using Repositories.Contract;
+using WebAPI.Extensions;
+using WebAPI.Models.Mappers;
 
 namespace WebAPI
 {
@@ -60,11 +69,13 @@ namespace WebAPI
                     .SetPreflightMaxAge(TimeSpan.FromSeconds(300)));
             });
             services.AddSingleton(_config);
+            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_config.GetConnectionString("DatabaseString")), ServiceLifetime.Scoped);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+                
 
             //impliment bearer token
             services.AddAuthentication(x =>
@@ -86,7 +97,7 @@ namespace WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("FooBarQuuxIsTheStandardTypeOfStringWeUse12345"))
                 };
             });
-            //services.AddCors();
+
             services.AddAuthorization(cfg =>
             {
                 cfg.AddPolicy("SystemPolicy", p => {
@@ -100,13 +111,17 @@ namespace WebAPI
 
             services.AddTransient<DataSeeder>();
 
-            services.AddTransient<ClaimsPrincipal>(
-                s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-            services.AddAutoMapper();
+            services.AddTransient<ClaimsPrincipal>( s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+
+            services.AddAutoMapper(typeof(ModelProfile).GetTypeInfo().Assembly);
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWarehouseService, WarehouseService>();
-            
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+
+            //mediatr
+            services.AddMediatR(GetAssembliesToScan());
+
             // mvc
             services.AddMvc(opt =>
             {
@@ -115,13 +130,24 @@ namespace WebAPI
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
-        }
 
+        }
+        private static Assembly[] GetAssembliesToScan()
+        {
+            return new[]
+            {
+                typeof(Startup).GetTypeInfo().Assembly,
+                typeof(SupplierGetRequest).GetTypeInfo().Assembly,
+                typeof(SupplierGetUseCase).GetTypeInfo().Assembly,
+                
+            };
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(_config.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole(_config.GetSection("Logging"));
+
+            loggerFactory.AddDebug(LogLevel.Information);
 
             app.UseCors("AllowAll");
 
@@ -169,6 +195,12 @@ namespace WebAPI
                     var seeder = scope.ServiceProvider.GetService<DataSeeder>();
                     seeder.Seed().Wait();
                 }
+                // logging
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseWebApiExceptionHandler();
             }
         }
     }

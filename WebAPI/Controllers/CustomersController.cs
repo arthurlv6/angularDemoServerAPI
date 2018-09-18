@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -13,6 +12,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+        /*
         private readonly ApplicationDbContext _context;
 
         public CustomersController(ApplicationDbContext context)
@@ -122,5 +122,6 @@ namespace WebAPI.Controllers
         {
             return _context.Customers.Any(e => e.Id == id);
         }
+        */
     }
 }

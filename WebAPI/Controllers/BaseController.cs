@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Entities;
 using WebAPI.Filters;
 
 namespace WebAPI.Controllers
@@ -15,15 +15,15 @@ namespace WebAPI.Controllers
     //[ValidateModel]
     public class BaseController : ControllerBase
     {
-        protected readonly ApplicationDbContext _context;
         protected readonly IMapper _mapper;
+        protected readonly IMediator _mediator;
 
         public BaseController(
-            ApplicationDbContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IMediator mediator)
         {
-            _context = context;
             _mapper = mapper;
+            _mediator = mediator;
         }
     }
 }
