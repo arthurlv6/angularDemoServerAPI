@@ -23,3 +23,7 @@
 /UseCases/obj
 /UseCases.Contract/obj
 /WebAPI/Properties/PublishProfiles/api.angular.arthurdid.net - Web Deploy.pubxml.user
+/RepositoryXUnitTest/bin/Debug/netcoreapp2.1
+/RepositoryXUnitTest/obj
+/XUnitTest/bin/Debug/netcoreapp2.1
+/XUnitTest/obj

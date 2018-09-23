@@ -93,10 +93,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> PostSupplier([FromBody] SupplierModel model)
         {
             model.Id = 0;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+
             try
             {
                var createdModel= await _mediator.Send(new SupplierInsertRequest() { SupplierModel = model });

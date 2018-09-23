@@ -11,10 +11,10 @@ using UseCases.Requests;
 
 namespace UseCases
 {
-    class SupplierGetSingleUseCase : IRequestHandler<SupplierGetSingleRequest, SupplierModel>
+    public class SupplierGetSingleUseCase : IRequestHandler<SupplierGetSingleRequest, SupplierModel>
     {
-        private readonly IMapper mapper;
-        private readonly ISupplierRepository supplierRepository;
+        internal readonly IMapper mapper;
+        internal readonly ISupplierRepository supplierRepository;
 
         public SupplierGetSingleUseCase(IMapper mapper, ISupplierRepository supplierRepository)
         {

@@ -32,15 +32,6 @@ namespace Repositories
                 }
             }
         }
-        protected Guid StoreId
-        {
-            get; set;
-        }
-
-        protected Guid? CustomerId
-        {
-            get; private set;
-        }
 
         protected IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
         {
